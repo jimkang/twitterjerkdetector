@@ -38,12 +38,29 @@ function createFilter(opts) {
           console.log('Error for ', userId, ':', error);
         }
         else if (typeof result.description === 'string') {
-          var profile = result.description.toLowerCase();
-          function profileIsFreeOfJerkKeyword(keyword) {
-            return profile.indexOf(keyword) === -1;
+
+          var profile = '';
+
+          if (result.description) {
+            profile = result.description.toLowerCase();;
+          }
+          var username = '';
+          if (result.screen_name) {
+            username = result.screen_name.toLowerCase();;
+          }
+          var name = '';
+          if (result.name) {
+            name = result.name.toLowerCase();
           }
 
-          if (jerkProfileKeywords.every(profileIsFreeOfJerkKeyword)) {
+          function userIsFreeOfJerkKeyword(keyword) {
+            debugger;
+            return username.indexOf(keyword) === -1 &&
+              name.indexOf(keyword) === -1 &&
+              profile.indexOf(keyword) === -1;
+          }
+
+          if (jerkProfileKeywords.every(userIsFreeOfJerkKeyword)) {
             nonSpamUserId = userId;
           }
           else {

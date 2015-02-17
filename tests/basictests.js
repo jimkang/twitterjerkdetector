@@ -47,8 +47,8 @@ test('Basic test', function basicTest(t) {
     }
   });
 
-  filter([100, 101, 102, 103, 104, 105, 106], function done(error, goodIds) {
+  filter(Object.keys(profilesForUserIds), function done(error, goodIds) {
     t.ok(!error, 'Doesn\'t return an error');
-    t.deepEqual(goodIds, [102, 103, 105], 'Proper ids returned after filter.');
+    t.deepEqual(goodIds, ['102', '103', '105'], 'Proper ids returned after filter.');
   });
 });

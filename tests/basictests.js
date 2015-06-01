@@ -182,6 +182,11 @@ var profilesForUserIds = {
     name: 'Very Short Story',
     screen_name: 'StoryFestivals',
     description: 'FREE Deadline April 10th. Submit your 140 character story and have it performed by a professional actor.'
+  },
+  '139': {
+    name: 'UK Bump Keys Ltd',
+    screen_name: 'ukbumpkeys',
+    description: 'Ultra-Discount Lock Picking Tools. 10 years online supply with a great reputation for Quality, Service, Price.'
   }
 };
 

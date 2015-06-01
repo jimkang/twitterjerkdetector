@@ -53,12 +53,11 @@ function createFilter(opts) {
             name = result.name.toLowerCase();
           }
 
-          function userIsFreeOfJerkKeyword(keyword) {
-            return username.indexOf(keyword) === -1 &&
-              name.indexOf(keyword) === -1 &&
-              profile.indexOf(keyword) === -1;
-          }
-          if (jerkProfileKeywords.every(userIsFreeOfJerkKeyword)) {
+          if (followerRatioLooksHuman(
+              result.friends_count, result.followers_count
+            ) &&
+            jerkProfileKeywords.every(userIsFreeOfJerkKeyword)) {
+
             nonSpamUserId = userId;
           }
           else {
@@ -67,11 +66,27 @@ function createFilter(opts) {
         }
 
         done(error, nonSpamUserId);
+
+        function userIsFreeOfJerkKeyword(keyword) {
+          return username.indexOf(keyword) === -1 &&
+            name.indexOf(keyword) === -1 &&
+            profile.indexOf(keyword) === -1;
+        }
       }
     );
   }
 
   return filterJerkAccounts;
+}
+
+function followerRatioLooksHuman(following, followedBy) {
+  if (following < 50) {
+    return true;
+  }
+  if (followedBy / following > 0.66) {
+    return true;
+  }
+  return false;
 }
 
 module.exports = {

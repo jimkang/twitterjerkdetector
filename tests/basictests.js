@@ -40,12 +40,12 @@ var profilesForUserIds = {
   },
   '110': {
     name: 'Harry Pottter',
-    screen_name: '@haarrryp',
+    screen_name: 'haarrryp',
     description: 'all about Harry Potter'
   },
   '111': {
     name: 'Tolkien Quotes',
-    screen_name: '@tolkiensquotes',
+    screen_name: 'tolkiensquotes',
     description: ''
   },
   '112': {
@@ -110,7 +110,7 @@ var profilesForUserIds = {
   },
   '124': {
     name: 'AWESOME!',
-    screen_name: '@AwesomeFact5',
+    screen_name: 'AwesomeFact5',
     description: 'Do you know this? We are here for make your timeline 100% better. Follow us for learn more and more!'
   },
   '125': {
@@ -120,63 +120,68 @@ var profilesForUserIds = {
   },
   '126': {
     name: 'New Mindset',
-    screen_name: '@Mindset_New',
+    screen_name: 'Mindset_New',
     description: 'Download Hypnosis & Subliminal MP3s - For FREE, link below  '
   },
   '127': {
     name: 'Buddha',
-    screen_name: '@buddha937',
+    screen_name: 'buddha937',
     description: 'Siddhartha Gautama    '
   },
   '128': {
     name: 'Self-Esteem',
-    screen_name: '@95SelfEsteem',
+    screen_name: '95SelfEsteem',
     description: ''
   },
   '129': {
     name: 'Hobbit',
-    screen_name: '@hobbitnew',
+    screen_name: 'hobbitnew',
     description: 'In a hole in the ground there lived a hobbit.    '
   },
   '130': {
     name: 'Dixit Baiju',
-    screen_name: '@seodixitbaiju',
+    screen_name: 'seodixitbaiju',
     description: 'SEO, SOCIALMEDIA, SEM Experts use ethical SEO, effective & proven SEO methods to attain #top 10 SEO rankings in Google.http://goo.gl/sQ0XY     '
   },
   '131': {
     name: 'ã¿ãã»@ç¸äºãã',
-    screen_name: '@mikuho_811',
+    screen_name: 'mikuho_811',
     description: ''
   },
   '132': {
     name: 'Close By Events',
-    screen_name: '@closebyevents',
+    screen_name: 'closebyevents',
     description: 'COMING SOON! Post and search for events near you using geolocation technology. Follow us, It\'s FREE.    '
   },
   '133': {
     name: 'TheYumYumFoodie',
-    screen_name: '@TheYumYumFoodie',
+    screen_name: 'TheYumYumFoodie',
     description: 'I\'m #TVHost #Influencer @EddieZamora I unbiasedly discuss #Food #Wine #Spirits #Coffee n #travel My tweets are my own. https://www.instagram.com/theyumyumfoodie     '
   },
   '134': {
     name: 'Tariq Aziz',
-    screen_name: '@iTariqAziz',
+    screen_name: 'iTariqAziz',
     description: 'Follow me ,i follow u back    '
   },
   '135': {
     name: 'Maroon5 Lyric',
-    screen_name: '@maaarroon5',
+    screen_name: 'maaarroon5',
     description: 'wanna read all lyrics of Maroon5??    '
   },
   '136': {
     name: 'Confucius',
-    screen_name: '@ConfuciusQts',
+    screen_name: 'ConfuciusQts',
     description: 'The will to win, the desire to succeed, the urge to reach ur full potential. these are the keys that unlock the door to personal excellence.    '
   },
   '137': {
     name: 'Best Video Gaming',
-    screen_name: '@BestVideoGaming',
+    screen_name: 'BestVideoGaming',
     description: 'Check it out! Instagram: http://instagram.com/bestvideogaming     '
+  },
+  '138': {
+    name: 'Very Short Story',
+    screen_name: 'StoryFestivals',
+    description: 'FREE Deadline April 10th. Submit your 140 character story and have it performed by a professional actor.'
   }
 };
 

@@ -54,12 +54,10 @@ function createFilter(opts) {
           }
 
           function userIsFreeOfJerkKeyword(keyword) {
-            debugger;
             return username.indexOf(keyword) === -1 &&
               name.indexOf(keyword) === -1 &&
               profile.indexOf(keyword) === -1;
           }
-
           if (jerkProfileKeywords.every(userIsFreeOfJerkKeyword)) {
             nonSpamUserId = userId;
           }

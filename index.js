@@ -83,7 +83,7 @@ function followerRatioLooksHuman(following, followedBy) {
   if (following < 50) {
     return true;
   }
-  if (followedBy / following > 0.66) {
+  if (followedBy / following > 0.6) {
     return true;
   }
   return false;

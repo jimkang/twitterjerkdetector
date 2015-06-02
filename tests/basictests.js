@@ -277,6 +277,14 @@ var profilesForUserIds = {
     "protected": false,
     "followers_count": 678,
     "friends_count": 1679
+  },
+  '141': {
+    "name": "Astrology Daily",
+    "screen_name": "astrology_day",
+    "description": "",
+    "protected": false,
+    "followers_count": 1666,
+    "friends_count": 1034
   }
 };
 

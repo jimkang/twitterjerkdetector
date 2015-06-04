@@ -285,6 +285,34 @@ var profilesForUserIds = {
     "protected": false,
     "followers_count": 1666,
     "friends_count": 1034
+  },
+  '141': {
+    name: 'Albert Einstein',
+    screen_name: 'einstein84',
+    description: 'E=mc²',
+    "followers_count": 8306,
+    "friends_count": 8125
+  },
+  '142': {
+    name: 'Fredd nietzsche',
+    screen_name: 'Freddnietzsche1',
+    description: '',
+    "followers_count": 1273,
+    "friends_count": 1319
+  },
+  '143': {
+    name: 'Minion_Best Quotes',
+    screen_name: 'bstminionquotes',
+    description: 'Don\' judge me. I was born to be awesome, not perfect.',
+    "followers_count": 2022,
+    "friends_count": 1841
+  },
+  '144': {
+    name: 'Paulo Coelho',
+    screen_name: 'cccooelho',
+    description: 'all about Paulo Coelho',
+    "followers_count": 7295,
+    "friends_count": 7116
   }
 };
 

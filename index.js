@@ -22,7 +22,10 @@ function createFilter(opts) {
   function filterJerkAccounts(userIds, done) {
     var q = queue();
 
-    userIds.forEach(queueFilter);
+    var nonBlacklisted = _.without.apply(
+      _.without, [userIds].concat(blacklist)
+    );
+    nonBlacklisted.forEach(queueFilter);
     q.awaitAll(collateReports);
 
     function queueFilter(userId) {
@@ -30,12 +33,14 @@ function createFilter(opts) {
     }
 
     function collateReports(error, reports) {
-      if (error) {
-        done(error);
+      var sortedReports = {
+        jerks: blacklist
+      };
+      if (reports) {
+        sortedReports = splitReportsIntoUserIdsByJerkiness(reports);
+        sortedReports.jerks = sortedReports.jerks.concat(blacklist);
       }
-      else {
-        done(null, splitReportsIntoUserIdsByJerkiness(reports));
-      }
+      done(error, sortedReports);
     }
   }
 
@@ -45,12 +50,6 @@ function createFilter(opts) {
       isJerk: true
     };
 
-    if (blacklist.indexOf(userId) !== -1) {
-      // This is a blacklisted id.
-      callNextTick(done, null, report);
-      return;
-    }
-
     var getParams = {
       user_id: userId
     };
@@ -58,11 +57,7 @@ function createFilter(opts) {
     twit.get('users/show', getParams, checkProfile);
 
     function checkProfile(error, result) {
-      if (error) {
-        done(error);
-        return;
-      }
-      else if (typeof result.description === 'string') {
+      if (!error && typeof result.description === 'string') {
         var profile = '';
 
         if (result.description) {

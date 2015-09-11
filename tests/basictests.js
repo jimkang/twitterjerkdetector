@@ -1,6 +1,6 @@
 var test = require('tape');
 var twitterjerkdetector = require('../index');
-var conformAsync = require('conform-async');
+var callNextTick = require('call-next-tick');
 
 var profilesForUserIds = {
   '100': {
@@ -332,7 +332,7 @@ test('Basic test', function basicTest(t) {
           t.fail('Unexpected request sent to twit.');
         }
 
-        conformAsync.callBackOnNextTick(done, null, profile);
+        callNextTick(done, null, profile);
       }
     }
   });

@@ -1,9 +1,20 @@
 var queue = require('queue-async');
 var _ = require('lodash');
 var jsonfile = require('jsonfile');
+var callNextTick = require('call-next-tick');
 
 function createFilter(opts) {
-  var twit = opts.twit;
+  var twit;
+  var blacklist;
+
+  if (opts) {
+    twit = opts.twit;
+    blacklist = opts.blacklist;
+  }
+  if (!blacklist) {
+    blacklist = [];
+  }
+
   var jerkProfileKeywords = jsonfile.readFileSync(
     __dirname + '/data/jerk-profile-keywords.json'
   );
@@ -25,6 +36,11 @@ function createFilter(opts) {
   }
 
   function filterJerkAccount(userId, done)  {
+    if (blacklist.indexOf(userId) !== -1) {
+      // This is a blacklisted id.
+      callNextTick(done);
+      return;
+    }
     twit.get(
       'users/show',
       {

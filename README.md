@@ -14,7 +14,8 @@ Usage
     var twitterjerkdetector = require('twitterjerkdetector');
     var twit = require('twit');
     var filter = twitterjerkdetector.createFilter({
-      twit: twit
+      twit: twit,
+      blacklist: [2255981, 14174091]
     });
     filter(
       [
@@ -33,6 +34,8 @@ Usage
         // Some subset of the original ids.
       }
     );
+
+The blacklist opt is an array of ids that the filter will always consider bad.
 
 Tests
 -----

@@ -22,74 +22,81 @@ function createFilter(opts) {
   function filterJerkAccounts(userIds, done) {
     var q = queue();
 
-    userIds.forEach(function queueFilter(userId) {
+    userIds.forEach(queueFilter);
+    q.awaitAll(collateReports);
+
+    function queueFilter(userId) {
       q.defer(filterJerkAccount, userId);
-    });
-    q.awaitAll(function accountsChecked(error, results) {
+    }
+
+    function collateReports(error, reports) {
       if (error) {
         done(error);
       }
       else {
-        done(null, _.compact(results));
-      }    
-    });
+        done(null, splitReportsIntoUserIdsByJerkiness(reports));
+      }
+    }
   }
 
   function filterJerkAccount(userId, done)  {
+    var report = {
+      userId: userId,
+      isJerk: true
+    };
+
     if (blacklist.indexOf(userId) !== -1) {
       // This is a blacklisted id.
-      callNextTick(done);
+      callNextTick(done, null, report);
       return;
     }
-    twit.get(
-      'users/show',
-      {
-        user_id: userId
-      },
-      function checkProfile(error, result) {
-        var nonSpamUserId;
-        // Left undefined if userId corresponds to a spam account.
 
-        if (error) {
-          console.log('Error for ', userId, ':', error);
+    var getParams = {
+      user_id: userId
+    };
+
+    twit.get('users/show', getParams, checkProfile);
+
+    function checkProfile(error, result) {
+      if (error) {
+        done(error);
+        return;
+      }
+      else if (typeof result.description === 'string') {
+        var profile = '';
+
+        if (result.description) {
+          profile = result.description.toLowerCase();
         }
-        else if (typeof result.description === 'string') {
-
-          var profile = '';
-
-          if (result.description) {
-            profile = result.description.toLowerCase();;
-          }
-          var username = '';
-          if (result.screen_name) {
-            username = result.screen_name.toLowerCase();;
-          }
-          var name = '';
-          if (result.name) {
-            name = result.name.toLowerCase();
-          }
-
-          if (followerRatioLooksHuman(
-              result.friends_count, result.followers_count
-            ) &&
-            jerkProfileKeywords.every(userIsFreeOfJerkKeyword)) {
-
-            nonSpamUserId = userId;
-          }
-          else {
-            console.log('Filtering user as spam:', userId);
-          }
+        var username = '';
+        if (result.screen_name) {
+          username = result.screen_name.toLowerCase();
+        }
+        var name = '';
+        if (result.name) {
+          name = result.name.toLowerCase();
         }
 
-        done(error, nonSpamUserId);
+        if (followerRatioLooksHuman(
+            result.friends_count, result.followers_count
+          ) &&
+          jerkProfileKeywords.every(userIsFreeOfJerkKeyword)) {
 
-        function userIsFreeOfJerkKeyword(keyword) {
-          return username.indexOf(keyword) === -1 &&
-            name.indexOf(keyword) === -1 &&
-            profile.indexOf(keyword) === -1;
+          report.isJerk = false;
+        }
+        else {
+          console.log('Filtering user as spam:', userId);
         }
       }
-    );
+
+      done(error, report);
+
+      function userIsFreeOfJerkKeyword(keyword) {
+        return username.indexOf(keyword) === -1 &&
+          name.indexOf(keyword) === -1 &&
+          profile.indexOf(keyword) === -1;
+      }
+    }
   }
 
   return filterJerkAccounts;
@@ -103,6 +110,26 @@ function followerRatioLooksHuman(following, followedBy) {
     return true;
   }
   return false;
+}
+
+function splitReportsIntoUserIdsByJerkiness(reports) {
+  var jerks = [];
+  var coolguys = [];
+  reports.forEach(sortIdIntoBucket);
+
+  function sortIdIntoBucket(report) {
+    var bucket = coolguys;
+    if (report.isJerk) {
+      bucket = jerks;
+    }
+
+    bucket.push(report.userId);
+  }
+
+  return {
+    coolguys: coolguys,
+    jerks: jerks
+  };
 }
 
 module.exports = {

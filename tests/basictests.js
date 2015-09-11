@@ -1,6 +1,7 @@
 var test = require('tape');
 var twitterjerkdetector = require('../index');
 var callNextTick = require('call-next-tick');
+var _ = require('lodash');
 
 var profilesForUserIds = {
   '100': {
@@ -337,8 +338,19 @@ test('Basic test', function basicTest(t) {
     }
   });
 
-  filter(Object.keys(profilesForUserIds), function done(error, goodIds) {
+  filter(Object.keys(profilesForUserIds), function done(error, results) {
+    var goodIds = ['102', '103', '105'];
     t.ok(!error, 'Doesn\'t return an error');
-    t.deepEqual(goodIds, ['102', '103', '105'], 'Proper ids returned after filter.');
+    t.deepEqual(
+      results,
+      {
+        coolguys: goodIds,
+        jerks: _.without.apply(
+          _.without,
+          [Object.keys(profilesForUserIds)].concat(goodIds)
+        )
+      },
+      'Ids properly sorted by filter.'
+    );
   });
 });

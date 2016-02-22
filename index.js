@@ -1,4 +1,3 @@
-var queue = require('queue-async');
 var _ = require('lodash');
 var jsonfile = require('jsonfile');
 var callNextTick = require('call-next-tick');
@@ -19,8 +18,6 @@ function createFilter(opts) {
   }
 
   function filterJerkAccounts(userIds, done) {
-    var q = queue();
-
     var nonBlacklisted = _.without.apply(
       _.without, [userIds].concat(blacklist)
     );
@@ -39,7 +36,6 @@ function createFilter(opts) {
     twit.post('users/lookup', lookupOpts, runFilterOnUserObjects);
 
     function runFilterOnUserObjects(error, users) {
-      debugger;
       if (error) {
         done(error);
       }

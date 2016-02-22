@@ -332,7 +332,6 @@ test('Basic test', function basicTest(t) {
         var profiles;
 
         if (path === 'users/lookup') {
-          debugger;
           profiles = _.values(_.pick(profilesForUserIds, opts.user_id.split(',')));
         }
 

@@ -1,6 +1,6 @@
 {
   "name": "twitterjerkdetector",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Given an array of Twitter user ids, gives back an array of the subset of those user ids that aren't jerks.",
   "main": "index.js",
   "scripts": {

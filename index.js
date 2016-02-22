@@ -22,34 +22,53 @@ function createFilter(opts) {
       _.without, [userIds].concat(blacklist)
     );
 
-    if (userIds.length > 100) {
+    if (userIds.length > 1500) {
       console.log(
-        'Warning: There were more than 100 userIds passed to filterJerkAccounts.'
+        'Warning: There were more than 1500 userIds passed to filterJerkAccounts.'
       );
-      userIds = userIds.slice(0, 100);
+      userIds = userIds.slice(0, 1500);
     }
 
-    var lookupOpts = {
-      user_id: userIds.join(','),
-      include_entities: false
-    };
-    twit.post('users/lookup', lookupOpts, runFilterOnUserObjects);
+    var reports = [];
+    if (userIds.length > 0) {
+      filterNextBatch();
+    }
+
+    function filterNextBatch() {
+      var nextBatch = userIds.slice(0, 100);
+      userIds.splice(0, 100);
+
+      var lookupOpts = {
+        user_id: nextBatch.join(','),
+        include_entities: false
+      };
+      twit.post('users/lookup', lookupOpts, runFilterOnUserObjects);
+    }
 
     function runFilterOnUserObjects(error, users) {
       if (error) {
         done(error);
       }
       else {
-        var reports = users.map(filterJerkAccount);
-        var sortedReports = {
-          jerks: blacklist
-        };
-        if (reports) {
-          sortedReports = splitReportsIntoUserIdsByJerkiness(reports);
-          sortedReports.jerks = sortedReports.jerks.concat(blacklist);
+        reports = reports.concat(users.map(filterJerkAccount));
+        if (userIds.length > 0) {
+          callNextTick(filterNextBatch);
         }
-        done(error, sortedReports);
+        else {
+          sortAndFinish();
+        }
       }
+    }
+
+    function sortAndFinish() {
+      var sortedReports = {
+        jerks: blacklist
+      };
+      if (reports) {
+        sortedReports = splitReportsIntoUserIdsByJerkiness(reports);
+        sortedReports.jerks = sortedReports.jerks.concat(blacklist);
+      }
+      done(null, sortedReports);
     }
   }
 

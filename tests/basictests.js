@@ -1,6 +1,7 @@
 var test = require('tape');
 var twitterjerkdetector = require('../index');
-var conformAsync = require('conform-async');
+var callNextTick = require('call-next-tick');
+var _ = require('lodash');
 
 var profilesForUserIds = {
   '100': {
@@ -100,18 +101,19 @@ test('Basic test', function basicTest(t) {
 
   var filter = twitterjerkdetector.createFilter({
     twit: {
-      get: function mockGet(path, opts, done) {
-        var profile;
+      post: function mockPost(path, opts, done) {
+        var profiles;
 
-        if (path === 'users/show') {
-          profile = profilesForUserIds[opts.user_id];
+        if (path === 'users/lookup') {
+          debugger;
+          profiles = _.values(_.pick(profilesForUserIds, opts.user_id.split(',')));
         }
 
-        if (!profile) {
+        if (!profiles) {
           t.fail('Unexpected request sent to twit.');
         }
 
-        conformAsync.callBackOnNextTick(done, null, profile);
+        callNextTick(done, null, profiles);
       }
     }
   });

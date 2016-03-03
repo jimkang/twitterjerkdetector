@@ -22,13 +22,6 @@ function createFilter(opts) {
       _.without, [userIds].concat(blacklist)
     );
 
-    if (userIds.length > 1500) {
-      console.log(
-        'Warning: There were more than 1500 userIds passed to filterJerkAccounts.'
-      );
-      userIds = userIds.slice(0, 1500);
-    }
-
     var reports = [];
     if (userIds.length > 0) {
       filterNextBatch();

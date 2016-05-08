@@ -276,7 +276,7 @@ var profilesForUserIds = {
     "screen_name": "LeslieKloet",
     "description": "Time is the best teacher; Unfortunately it kills all its students!",
     "protected": false,
-    "followers_count": 678,
+    "followers_count": 300,
     "friends_count": 1679
   },
   '141': {
